@@ -1,0 +1,38 @@
+@startuml
+interface Repository {
+  save(entity)
+  findById(id)
+  findAll()
+  delete(id)
+}
+
+class InMemoryRepository
+class EventService
+class EventBuilder
+class CalendarEvent
+class Participant
+class NotificationCenter
+class RecordingNotificationObserver
+class StrictCancellationPolicy
+class FlexibleCancellationPolicy
+class PriorityReminderStrategy
+class DefaultReminderStrategy
+class NoParticipantOverlapPolicy
+class SameLocationOverlapPolicy
+
+Repository <|.. InMemoryRepository
+EventService --> Repository : events
+EventService --> Repository : participants
+EventService --> EventBuilder
+EventService --> NotificationCenter
+EventService --> StrictCancellationPolicy
+EventService --> PriorityReminderStrategy
+EventService --> NoParticipantOverlapPolicy
+EventBuilder --> CalendarEvent
+NotificationCenter --> RecordingNotificationObserver
+InMemoryRepository --> CalendarEvent
+InMemoryRepository --> Participant
+StrictCancellationPolicy <|-- FlexibleCancellationPolicy
+PriorityReminderStrategy <|-- DefaultReminderStrategy
+NoParticipantOverlapPolicy <|-- SameLocationOverlapPolicy
+@enduml

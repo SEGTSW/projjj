@@ -1,0 +1,10 @@
+# Global AI rules for Event Planner Architecture
+
+- Generate code only behind explicit interfaces or replaceable abstractions.
+- Keep all persistence in memory. Do not add external databases, queues, SaaS APIs or hidden network calls.
+- Follow TDD: create or update tests before changing service behavior.
+- Keep business logic in `src/models`, `src/services`, `src/storage` and `src/utils`; React components may orchestrate but must not own domain rules.
+- Use dependency injection for repositories, notification observers, conflict policies and strategies.
+- Preserve GoF patterns already used in the project: Builder, Strategy and Observer.
+- Every new branch of business logic must have unit tests and at least one edge-case test.
+- CI reports must remain downloadable from workflow artifacts.

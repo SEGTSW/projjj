@@ -1,0 +1,38 @@
+@startuml
+class CalendarEvent {
+  id
+  title
+  organizerId
+  participantIds
+  startAt
+  endAt
+  location
+  status
+  priority
+}
+
+class Participant {
+  id
+  name
+  email
+  blocked
+}
+
+class NotificationMessage {
+  eventId
+  recipientId
+  channel
+  subject
+}
+
+class ReminderSchedule {
+  eventId
+  minutesBeforeStart
+  scheduledAt
+}
+
+Participant "1" -- "0..*" CalendarEvent : organizes
+Participant "0..*" -- "0..*" CalendarEvent : attends
+CalendarEvent "1" -- "0..*" NotificationMessage : emits
+CalendarEvent "1" -- "0..*" ReminderSchedule : schedules
+@enduml

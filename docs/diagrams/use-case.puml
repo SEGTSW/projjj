@@ -1,0 +1,29 @@
+@startuml
+left to right direction
+actor "Організатор" as Organizer
+actor "Учасник" as Participant
+actor "Адміністратор календаря" as Admin
+actor "CI/CD Pipeline" as Pipeline
+
+rectangle "Event Planner" {
+  usecase "Створити подію" as UC1
+  usecase "Перевірити конфлікти" as UC2
+  usecase "Змінити подію" as UC3
+  usecase "Скасувати подію" as UC4
+  usecase "Отримати сповіщення" as UC5
+  usecase "Заблокувати користувача" as UC6
+  usecase "Згенерувати звіти" as UC7
+}
+
+Organizer --> UC1
+Organizer --> UC3
+Organizer --> UC4
+Participant --> UC5
+Admin --> UC6
+Pipeline --> UC7
+UC1 ..> UC2 : include
+UC3 ..> UC2 : include
+UC1 ..> UC5 : include
+UC3 ..> UC5 : include
+UC4 ..> UC5 : include
+@enduml
