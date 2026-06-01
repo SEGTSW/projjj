@@ -22,7 +22,12 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Dependency vulnerability audit
+        run: |
+          mkdir -p reports
+          npm audit --audit-level=low --json > reports/npm-audit.json
 
       - name: Static check
         run: npm run lint
@@ -34,12 +39,12 @@ jobs:
         run: npm run build
 
       - name: SonarCloud scan
-        if: ${{ env.SONAR_TOKEN != '' }}
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
 
       - name: Upload test reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-and-coverage-reports
@@ -49,6 +54,7 @@ jobs:
           retention-days: 14
 
       - name: Upload production build
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: react-dist
