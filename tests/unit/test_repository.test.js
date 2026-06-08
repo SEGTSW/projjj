@@ -1,5 +1,12 @@
-import test from 'node:test';
+import nodeTest from 'node:test';
 import assert from 'node:assert/strict';
+
+const TEST_FILE = 'tests/unit/test_repository.test.js';
+
+function test(name, fn) {
+  return nodeTest(`${TEST_FILE}::${name}`, fn);
+}
+
 import { Repository } from '../../src/storage/repository.js';
 import { InMemoryRepository } from '../../src/storage/inMemoryRepository.js';
 

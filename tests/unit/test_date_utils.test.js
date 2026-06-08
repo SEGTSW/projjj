@@ -1,5 +1,12 @@
-import test from 'node:test';
+import nodeTest from 'node:test';
 import assert from 'node:assert/strict';
+
+const TEST_FILE = 'tests/unit/test_date_utils.test.js';
+
+function test(name, fn) {
+  return nodeTest(`${TEST_FILE}::${name}`, fn);
+}
+
 import { assertFutureRange, minutesBetween, overlaps, toDate } from '../../src/utils/dateUtils.js';
 
 for (let i = 0; i < 10; i += 1) {

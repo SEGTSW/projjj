@@ -1,5 +1,12 @@
-import test from 'node:test';
+import nodeTest from 'node:test';
 import assert from 'node:assert/strict';
+
+const TEST_FILE = 'tests/unit/test_service_factory.test.js';
+
+function test(name, fn) {
+  return nodeTest(`${TEST_FILE}::${name}`, fn);
+}
+
 import { createDefaultEventService } from '../../src/services/serviceFactory.js';
 import { command } from '../helpers/eventTestUtils.js';
 

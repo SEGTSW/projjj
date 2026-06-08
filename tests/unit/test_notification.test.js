@@ -1,5 +1,12 @@
-import test from 'node:test';
+import nodeTest from 'node:test';
 import assert from 'node:assert/strict';
+
+const TEST_FILE = 'tests/unit/test_notification.test.js';
+
+function test(name, fn) {
+  return nodeTest(`${TEST_FILE}::${name}`, fn);
+}
+
 import { CalendarEvent } from '../../src/models/event.js';
 import { NotificationChannel } from '../../src/models/enums.js';
 import { NotificationCenter, NotificationObserver, RecordingNotificationObserver } from '../../src/services/notificationCenter.js';

@@ -1,5 +1,12 @@
-import test from 'node:test';
+import nodeTest from 'node:test';
 import assert from 'node:assert/strict';
+
+const TEST_FILE = 'tests/unit/test_reminder_strategy.test.js';
+
+function test(name, fn) {
+  return nodeTest(`${TEST_FILE}::${name}`, fn);
+}
+
 import { CalendarEvent } from '../../src/models/event.js';
 import { EventPriority } from '../../src/models/enums.js';
 import { DefaultReminderStrategy, PriorityReminderStrategy } from '../../src/services/reminderStrategy.js';

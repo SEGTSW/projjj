@@ -1,5 +1,12 @@
-import test from 'node:test';
+import nodeTest from 'node:test';
 import assert from 'node:assert/strict';
+
+const TEST_FILE = 'tests/unit/test_event_service.test.js';
+
+function test(name, fn) {
+  return nodeTest(`${TEST_FILE}::${name}`, fn);
+}
+
 import { EventPriority, EventStatus, EventType } from '../../src/models/enums.js';
 import { CalendarEvent } from '../../src/models/event.js';
 import { FlexibleCancellationPolicy, StrictCancellationPolicy } from '../../src/services/cancellationPolicy.js';
