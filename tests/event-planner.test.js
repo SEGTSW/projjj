@@ -9,9 +9,11 @@ import { EventBuilder } from '../src/services/eventBuilder.js';
 import { EventService } from '../src/services/eventService.js';
 import { FlexibleCancellationPolicy, StrictCancellationPolicy } from '../src/services/cancellationPolicy.js';
 import { NoParticipantOverlapPolicy, SameLocationOverlapPolicy } from '../src/services/conflictPolicy.js';
-import { NotificationCenter, RecordingNotificationObserver } from '../src/services/notificationCenter.js';
+import { NotificationCenter, NotificationObserver, RecordingNotificationObserver } from '../src/services/notificationCenter.js';
 import { DefaultReminderStrategy, PriorityReminderStrategy } from '../src/services/reminderStrategy.js';
-import { addMinutes, minutesBetween, overlaps } from '../src/utils/dateUtils.js';
+import { createDefaultEventService } from '../src/services/serviceFactory.js';
+import { Repository } from '../src/storage/repository.js';
+import { addMinutes, assertFutureRange, minutesBetween, overlaps, toDate } from '../src/utils/dateUtils.js';
 
 function participant(id, blocked = false) {
   return new Participant({ id, name: `User ${id}`, email: `${id}@example.com`, blocked });
@@ -265,3 +267,117 @@ for (let i = 0; i < 10; i += 1) {
     ), 60);
   });
 }
+
+test('default service factory wires repositories and policies', () => {
+  const runtime = createDefaultEventService();
+  const event = runtime.service.createEvent(command(301, {
+    organizerId: 'u-1',
+    participantIds: ['u-2'],
+    startAt: new Date('2026-12-01T10:00:00.000Z'),
+    endAt: new Date('2026-12-01T11:00:00.000Z')
+  }));
+
+  assert.equal(runtime.participantRepository.findAll().length, 3);
+  assert.equal(runtime.eventRepository.findById(event.id), event);
+  assert.equal(runtime.notificationCenter.notifyEvent(event, 'Manual', 'Check').length, 2);
+});
+
+test('repository interface methods require implementation', () => {
+  const repository = new Repository();
+
+  assert.throws(() => repository.save({ id: 'x' }), /Repository\.save/);
+  assert.throws(() => repository.findById('x'), /Repository\.findById/);
+  assert.throws(() => repository.findAll(), /Repository\.findAll/);
+  assert.throws(() => repository.delete('x'), /Repository\.delete/);
+});
+
+test('participant validates required fields and toggles blocked state', () => {
+  assert.throws(() => new Participant({ id: 'u-x', name: '', email: '' }), /participant requires/);
+
+  const user = participant('toggle');
+  user.block();
+  assert.equal(user.blocked, true);
+  user.unblock();
+  assert.equal(user.blocked, false);
+});
+
+test('calendar event validates required fields and protects invalid mutations', () => {
+  assert.throws(() => new CalendarEvent(command(302, { id: '', title: '', organizerId: '' })), /event requires/);
+
+  const fullEvent = new CalendarEvent(command(303, {
+    id: 'full',
+    participantIds: ['u-2'],
+    capacity: 1
+  }));
+  assert.throws(() => fullEvent.addParticipant('u-3'), /capacity exceeded/);
+
+  const cancelled = new CalendarEvent(command(304, { id: 'cancelled' }));
+  cancelled.cancel('not needed');
+  assert.equal(cancelled.isActive(), false);
+  assert.throws(() => cancelled.addParticipant('u-3'), /cancelled event/);
+  assert.throws(() => new CalendarEvent(command(305, { id: 'bad-reason' })).cancel('x'), /at least 3 characters/);
+
+  const clone = fullEvent.clone();
+  assert.notEqual(clone, fullEvent);
+  assert.deepEqual(clone.participantIds, fullEvent.participantIds);
+});
+
+test('event service covers not found cancellation and reminder branches', () => {
+  const { service } = runtime();
+
+  assert.throws(() => service.updateEvent('missing', { title: 'Nope' }), /Event with id missing/);
+  assert.throws(() => service.createEvent(command(306, { organizerId: 'missing-user' })), /Participant with id missing-user/);
+
+  const event = service.createEvent(command(307));
+  assert.equal(service.getReminderSchedule(event.id).length, 2);
+  assert.equal(service.listEvents({ status: EventStatus.SCHEDULED }).length, 1);
+  assert.equal(service.listEvents({ organizerId: 'u-1' }).length, 1);
+
+  const cancelled = service.cancelEvent(event.id, 'cancelled early', new Date('2026-01-01T10:00:00.000Z'));
+  assert.equal(cancelled.status, EventStatus.CANCELLED);
+  assert.throws(() => service.updateEvent(event.id, { title: 'Blocked' }), /cancelled event cannot be changed/);
+});
+
+test('strict cancellation rejects generic events inside minimum window', () => {
+  const event = new CalendarEvent(command(308, {
+    id: 'soon',
+    startAt: new Date('2026-12-10T10:00:00.000Z'),
+    endAt: new Date('2026-12-10T11:00:00.000Z')
+  }));
+  const decision = new StrictCancellationPolicy().canCancel(event, new Date('2026-12-10T09:50:00.000Z'));
+
+  assert.equal(decision.allowed, false);
+  assert.match(decision.reason, /15 minutes/);
+});
+
+test('notification observer base class requires update implementation', () => {
+  assert.throws(() => new NotificationObserver().update({}), /must be implemented/);
+});
+
+test('in memory repository can clear stored values', () => {
+  const repository = new InMemoryRepository([{ id: 'one' }, { id: 'two' }]);
+
+  repository.clear();
+
+  assert.deepEqual(repository.findAll(), []);
+});
+
+test('date utilities reject invalid and inconsistent ranges', () => {
+  assert.throws(() => toDate('not-a-date', 'customDate'), /customDate must be a valid date/);
+  assert.throws(
+    () => assertFutureRange(
+      new Date('2026-12-01T11:00:00.000Z'),
+      new Date('2026-12-01T10:00:00.000Z'),
+      new Date('2026-01-01T00:00:00.000Z')
+    ),
+    /endAt must be after startAt/
+  );
+  assert.throws(
+    () => assertFutureRange(
+      new Date('2026-01-01T10:00:00.000Z'),
+      new Date('2026-01-01T11:00:00.000Z'),
+      new Date('2026-02-01T00:00:00.000Z')
+    ),
+    /startAt must not be in the past/
+  );
+});

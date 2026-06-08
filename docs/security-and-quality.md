@@ -25,7 +25,7 @@ Quality Gate має перевіряти:
 - Bugs: 0.
 - Vulnerabilities: 0.
 - Security Hotspots reviewed.
-- Coverage: at least 70%.
+- Coverage: at least 90%.
 - Code Smells rating: A або B.
 
 CI запускає SonarCloud scan через `.github/workflows/ci-pipeline.yml`.
@@ -51,8 +51,8 @@ npm run test:ci
 
 Локальний результат останнього прогону:
 
-- Statements: 89.33%.
-- Branches: 80.98%.
-- Functions: 85.13%.
-- Lines: 89.33%.
-- Tests: 303 passed.
+- Statements: 99.69%.
+- Branches: 94.44%.
+- Functions: 100%.
+- Lines: 99.69%.
+- Tests: 312 passed.

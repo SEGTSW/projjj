@@ -10,7 +10,7 @@
     "preview": "vite preview --host 0.0.0.0",
     "test": "node --test tests/*.test.js",
     "test:ci": "node scripts/run-tests.mjs",
-    "coverage": "c8 --all --src=src --include=\"src/**/*.js\" --exclude=src/main.jsx --exclude=src/App.jsx --reporter=lcov --reporter=html --reporter=cobertura --check-coverage --lines=70 --functions=70 --branches=70 --statements=70 node --test tests/*.test.js",
+    "coverage": "c8 --all --src=src --include=\"src/**/*.js\" --exclude=src/main.jsx --exclude=src/App.jsx --reporter=lcov --reporter=html --reporter=cobertura --check-coverage --lines=90 --functions=90 --branches=90 --statements=90 node --test tests/*.test.js",
     "lint": "node scripts/static-check.mjs"
   },
   "dependencies": {
