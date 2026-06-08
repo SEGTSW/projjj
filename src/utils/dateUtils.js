@@ -1,7 +1,7 @@
 import { ValidationError } from './errors.js';
 
 export function toDate(value, fieldName = 'date') {
-  const date = value instanceof Date ? new Date(value) : new Date(value);
+  const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
     throw new ValidationError(`${fieldName} must be a valid date`);
   }
