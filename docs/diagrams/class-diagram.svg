@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="820" viewBox="0 0 1320 820" role="img" aria-labelledby="title desc">
+  <title id="title">Event Planner Class Diagram</title>
+  <desc id="desc">Class diagram for EventService, repositories, builder, policies, strategies and notification center.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#344054"/>
+    </marker>
+    <marker id="triangle" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,6 L0,12 z" fill="#ffffff" stroke="#344054" stroke-width="1.5"/>
+    </marker>
+    <style>
+      .bg { fill: #f8f8fb; }
+      .title { font: 700 25px Arial, sans-serif; fill: #1f2937; }
+      .box { fill: #ffffff; stroke: #475467; stroke-width: 2; rx: 10; }
+      .head { fill: #e8eefc; stroke: #475467; stroke-width: 2; }
+      .iface { fill: #fff7df; stroke: #8a641d; stroke-width: 2; rx: 10; }
+      .ifacehead { fill: #ffe8a3; stroke: #8a641d; stroke-width: 2; }
+      .name { font: 700 16px Arial, sans-serif; fill: #1f2937; }
+      .method { font: 500 13px Arial, sans-serif; fill: #344054; }
+      .line { stroke: #344054; stroke-width: 1.9; fill: none; marker-end: url(#arrow); }
+      .inherit { stroke: #344054; stroke-width: 1.9; fill: none; marker-end: url(#triangle); }
+      .note { font: 600 13px Arial, sans-serif; fill: #475467; }
+    </style>
+  </defs>
+  <rect class="bg" width="1320" height="820"/>
+  <text class="title" x="40" y="48">Class Diagram: Event Planner Architecture</text>
+
+  <g transform="translate(70 95)">
+    <rect class="iface" width="225" height="155"/>
+    <rect class="ifacehead" width="225" height="42" rx="10"/>
+    <text class="name" x="56" y="27">Repository</text>
+    <text class="method" x="20" y="70">save(entity)</text>
+    <text class="method" x="20" y="96">findById(id)</text>
+    <text class="method" x="20" y="122">findAll()</text>
+    <text class="method" x="20" y="148">delete(id)</text>
+  </g>
+
+  <g transform="translate(70 330)">
+    <rect class="box" width="225" height="92"/>
+    <rect class="head" width="225" height="42" rx="10"/>
+    <text class="name" x="35" y="27">InMemoryRepository</text>
+    <text class="method" x="20" y="70">Map-backed storage</text>
+  </g>
+
+  <g transform="translate(500 245)">
+    <rect class="box" width="245" height="190"/>
+    <rect class="head" width="245" height="42" rx="10"/>
+    <text class="name" x="78" y="27">EventService</text>
+    <text class="method" x="20" y="70">createEvent(command)</text>
+    <text class="method" x="20" y="96">updateEvent(id, patch)</text>
+    <text class="method" x="20" y="122">cancelEvent(id, reason)</text>
+    <text class="method" x="20" y="148">add/removeParticipant()</text>
+    <text class="method" x="20" y="174">getReminderSchedule()</text>
+  </g>
+
+  <g transform="translate(500 80)">
+    <rect class="box" width="245" height="105"/>
+    <rect class="head" width="245" height="42" rx="10"/>
+    <text class="name" x="78" y="27">EventBuilder</text>
+    <text class="method" x="20" y="70">fluent event creation</text>
+    <text class="method" x="20" y="94">build()</text>
+  </g>
+
+  <g transform="translate(945 80)">
+    <rect class="box" width="220" height="120"/>
+    <rect class="head" width="220" height="42" rx="10"/>
+    <text class="name" x="58" y="27">CalendarEvent</text>
+    <text class="method" x="20" y="70">reschedule()</text>
+    <text class="method" x="20" y="94">cancel()</text>
+  </g>
+
+  <g transform="translate(945 245)">
+    <rect class="box" width="220" height="95"/>
+    <rect class="head" width="220" height="42" rx="10"/>
+    <text class="name" x="68" y="27">Participant</text>
+    <text class="method" x="20" y="70">block() / unblock()</text>
+  </g>
+
+  <g transform="translate(945 390)">
+    <rect class="box" width="220" height="118"/>
+    <rect class="head" width="220" height="42" rx="10"/>
+    <text class="name" x="48" y="27">NotificationCenter</text>
+    <text class="method" x="20" y="70">subscribe()</text>
+    <text class="method" x="20" y="94">notifyEvent()</text>
+  </g>
+
+  <g transform="translate(945 575)">
+    <rect class="box" width="250" height="80"/>
+    <rect class="head" width="250" height="42" rx="10"/>
+    <text class="name" x="30" y="27">RecordingNotificationObserver</text>
+  </g>
+
+  <g transform="translate(420 570)">
+    <rect class="box" width="245" height="80"/>
+    <rect class="head" width="245" height="42" rx="10"/>
+    <text class="name" x="36" y="27">StrictCancellationPolicy</text>
+  </g>
+
+  <g transform="translate(420 690)">
+    <rect class="box" width="245" height="80"/>
+    <rect class="head" width="245" height="42" rx="10"/>
+    <text class="name" x="30" y="27">FlexibleCancellationPolicy</text>
+  </g>
+
+  <g transform="translate(700 570)">
+    <rect class="box" width="245" height="80"/>
+    <rect class="head" width="245" height="42" rx="10"/>
+    <text class="name" x="30" y="27">PriorityReminderStrategy</text>
+  </g>
+
+  <g transform="translate(700 690)">
+    <rect class="box" width="245" height="80"/>
+    <rect class="head" width="245" height="42" rx="10"/>
+    <text class="name" x="32" y="27">DefaultReminderStrategy</text>
+  </g>
+
+  <g transform="translate(90 570)">
+    <rect class="box" width="250" height="80"/>
+    <rect class="head" width="250" height="42" rx="10"/>
+    <text class="name" x="24" y="27">NoParticipantOverlapPolicy</text>
+  </g>
+
+  <g transform="translate(90 690)">
+    <rect class="box" width="250" height="80"/>
+    <rect class="head" width="250" height="42" rx="10"/>
+    <text class="name" x="30" y="27">SameLocationOverlapPolicy</text>
+  </g>
+
+  <path class="inherit" d="M182 330 L182 250"/>
+  <path class="line" d="M295 370 C390 365 430 335 500 315"/>
+  <text class="note" x="330" y="350">events / participants</text>
+  <path class="line" d="M622 245 L622 185"/>
+  <path class="line" d="M745 125 L945 130"/>
+  <path class="line" d="M745 325 L945 290"/>
+  <path class="line" d="M745 350 L945 435"/>
+  <path class="line" d="M1055 508 L1065 575"/>
+  <path class="line" d="M575 435 L545 570"/>
+  <path class="line" d="M650 435 L760 570"/>
+  <path class="line" d="M500 395 C360 465 260 520 215 570"/>
+  <path class="inherit" d="M545 690 L545 650"/>
+  <path class="inherit" d="M825 690 L825 650"/>
+  <path class="inherit" d="M215 690 L215 650"/>
+  <path class="line" d="M180 422 C190 500 205 535 215 570"/>
+  <path class="line" d="M295 382 C405 400 455 385 500 360"/>
+
+  <text class="note" x="762" y="118">builds</text>
+  <text class="note" x="786" y="304">uses</text>
+  <text class="note" x="790" y="397">notifies</text>
+  <text class="note" x="546" y="540">cancellation</text>
+  <text class="note" x="750" y="540">reminders</text>
+  <text class="note" x="258" y="545">conflicts</text>
+</svg>

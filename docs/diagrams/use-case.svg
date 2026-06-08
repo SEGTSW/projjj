@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="640" viewBox="0 0 1180 640" role="img" aria-labelledby="title desc">
+  <title id="title">Event Planner Use Case Diagram</title>
+  <desc id="desc">Use case diagram for organizers, participants, administrators, CI/CD pipeline and Event Planner use cases.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#30435f"/>
+    </marker>
+    <style>
+      .bg { fill: #f7fafc; }
+      .system { fill: #ffffff; stroke: #2f5f8f; stroke-width: 2; rx: 18; }
+      .title { font: 700 24px Arial, sans-serif; fill: #1d2b3a; }
+      .label { font: 600 17px Arial, sans-serif; fill: #1f2d3d; }
+      .small { font: 500 14px Arial, sans-serif; fill: #41546b; }
+      .actor { stroke: #1f4f75; stroke-width: 2.5; fill: none; }
+      .case { fill: #e9f4ff; stroke: #2f6fa3; stroke-width: 2; }
+      .line { stroke: #30435f; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .include { stroke: #6f7f90; stroke-width: 1.8; stroke-dasharray: 7 5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect class="bg" width="1180" height="640"/>
+  <text class="title" x="40" y="46">Use Case Diagram: Event Planner</text>
+
+  <rect class="system" x="330" y="90" width="760" height="510"/>
+  <text class="title" x="610" y="128">Event Planner</text>
+
+  <g transform="translate(95 130)">
+    <circle class="actor" cx="45" cy="28" r="18"/>
+    <path class="actor" d="M45 46 L45 112 M12 70 L78 70 M45 112 L18 158 M45 112 L72 158"/>
+    <text class="label" x="0" y="188">Організатор</text>
+  </g>
+  <g transform="translate(95 360)">
+    <circle class="actor" cx="45" cy="28" r="18"/>
+    <path class="actor" d="M45 46 L45 112 M12 70 L78 70 M45 112 L18 158 M45 112 L72 158"/>
+    <text class="label" x="10" y="188">Учасник</text>
+  </g>
+  <g transform="translate(1015 145)">
+    <circle class="actor" cx="45" cy="28" r="18"/>
+    <path class="actor" d="M45 46 L45 112 M12 70 L78 70 M45 112 L18 158 M45 112 L72 158"/>
+    <text class="label" x="-28" y="188">Адміністратор</text>
+  </g>
+  <g transform="translate(1015 390)">
+    <circle class="actor" cx="45" cy="28" r="18"/>
+    <path class="actor" d="M45 46 L45 112 M12 70 L78 70 M45 112 L18 158 M45 112 L72 158"/>
+    <text class="label" x="-16" y="188">CI/CD Pipeline</text>
+  </g>
+
+  <ellipse class="case" cx="500" cy="190" rx="120" ry="42"/>
+  <text class="label" x="442" y="196">Створити подію</text>
+  <ellipse class="case" cx="750" cy="190" rx="132" ry="42"/>
+  <text class="label" x="678" y="196">Перевірити конфлікти</text>
+  <ellipse class="case" cx="500" cy="315" rx="120" ry="42"/>
+  <text class="label" x="450" y="321">Змінити подію</text>
+  <ellipse class="case" cx="500" cy="440" rx="120" ry="42"/>
+  <text class="label" x="443" y="446">Скасувати подію</text>
+  <ellipse class="case" cx="765" cy="345" rx="132" ry="42"/>
+  <text class="label" x="690" y="351">Отримати сповіщення</text>
+  <ellipse class="case" cx="790" cy="500" rx="142" ry="42"/>
+  <text class="label" x="710" y="506">Заблокувати користувача</text>
+  <ellipse class="case" cx="790" cy="105" rx="120" ry="42"/>
+  <text class="label" x="723" y="111">Згенерувати звіти</text>
+
+  <path class="line" d="M180 220 C260 205 300 195 380 190"/>
+  <path class="line" d="M180 245 C260 280 300 305 380 315"/>
+  <path class="line" d="M180 270 C260 365 300 430 380 440"/>
+  <path class="line" d="M180 480 C310 430 500 375 635 345"/>
+  <path class="line" d="M1030 315 C970 390 930 455 920 500"/>
+  <path class="line" d="M1030 535 C950 455 900 220 870 145"/>
+
+  <path class="include" d="M620 190 L615 190 L618 190"/>
+  <path class="include" d="M620 315 C655 275 675 235 700 225"/>
+  <path class="include" d="M590 215 C640 250 665 285 705 318"/>
+  <path class="include" d="M620 315 C650 325 675 333 705 340"/>
+  <path class="include" d="M620 440 C670 405 700 375 725 365"/>
+
+  <text class="small" x="640" y="175">&lt;&lt;include&gt;&gt;</text>
+  <text class="small" x="640" y="286">&lt;&lt;include&gt;&gt;</text>
+  <text class="small" x="645" y="417">&lt;&lt;include&gt;&gt;</text>
+</svg>

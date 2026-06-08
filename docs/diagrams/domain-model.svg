@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620" role="img" aria-labelledby="title desc">
+  <title id="title">Event Planner Domain Model</title>
+  <desc id="desc">Domain model with CalendarEvent, Participant, NotificationMessage and ReminderSchedule relationships.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2f4054"/>
+    </marker>
+    <style>
+      .bg { fill: #f8faf6; }
+      .title { font: 700 25px Arial, sans-serif; fill: #1e2d22; }
+      .classbox { fill: #ffffff; stroke: #365f46; stroke-width: 2; rx: 12; }
+      .header { fill: #dff2e4; stroke: #365f46; stroke-width: 2; }
+      .name { font: 700 18px Arial, sans-serif; fill: #1e3425; }
+      .field { font: 500 15px Arial, sans-serif; fill: #2d3f32; }
+      .rel { stroke: #2f4054; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .reltext { font: 600 14px Arial, sans-serif; fill: #33475b; }
+    </style>
+  </defs>
+  <rect class="bg" width="1120" height="620"/>
+  <text class="title" x="40" y="48">Domain Model: Event Planner</text>
+
+  <g transform="translate(420 115)">
+    <rect class="classbox" width="250" height="275"/>
+    <rect class="header" width="250" height="46" rx="12"/>
+    <text class="name" x="70" y="30">CalendarEvent</text>
+    <text class="field" x="24" y="76">id</text>
+    <text class="field" x="24" y="102">title</text>
+    <text class="field" x="24" y="128">organizerId</text>
+    <text class="field" x="24" y="154">participantIds</text>
+    <text class="field" x="24" y="180">startAt / endAt</text>
+    <text class="field" x="24" y="206">location</text>
+    <text class="field" x="24" y="232">status</text>
+    <text class="field" x="24" y="258">priority</text>
+  </g>
+
+  <g transform="translate(70 150)">
+    <rect class="classbox" width="230" height="170"/>
+    <rect class="header" width="230" height="46" rx="12"/>
+    <text class="name" x="62" y="30">Participant</text>
+    <text class="field" x="24" y="78">id</text>
+    <text class="field" x="24" y="104">name</text>
+    <text class="field" x="24" y="130">email</text>
+    <text class="field" x="24" y="156">blocked</text>
+  </g>
+
+  <g transform="translate(805 100)">
+    <rect class="classbox" width="260" height="170"/>
+    <rect class="header" width="260" height="46" rx="12"/>
+    <text class="name" x="42" y="30">NotificationMessage</text>
+    <text class="field" x="24" y="78">eventId</text>
+    <text class="field" x="24" y="104">recipientId</text>
+    <text class="field" x="24" y="130">channel</text>
+    <text class="field" x="24" y="156">subject</text>
+  </g>
+
+  <g transform="translate(805 365)">
+    <rect class="classbox" width="260" height="145"/>
+    <rect class="header" width="260" height="46" rx="12"/>
+    <text class="name" x="54" y="30">ReminderSchedule</text>
+    <text class="field" x="24" y="80">eventId</text>
+    <text class="field" x="24" y="106">minutesBeforeStart</text>
+    <text class="field" x="24" y="132">scheduledAt</text>
+  </g>
+
+  <path class="rel" d="M300 190 C350 170 375 165 420 170"/>
+  <text class="reltext" x="318" y="160">1 organizes 0..*</text>
+  <path class="rel" d="M300 265 C345 285 375 300 420 305"/>
+  <text class="reltext" x="310" y="315">0..* attends 0..*</text>
+  <path class="rel" d="M670 190 C720 170 750 155 805 150"/>
+  <text class="reltext" x="705" y="142">1 emits 0..*</text>
+  <path class="rel" d="M670 335 C725 370 760 395 805 420"/>
+  <text class="reltext" x="710" y="395">1 schedules 0..*</text>
+</svg>

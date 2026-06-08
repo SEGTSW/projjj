@@ -77,10 +77,14 @@ SonarCloud/SonarQube читає налаштування з `sonar-project.prope
 - Вимоги: `docs/requirements.md`
 - Архітектура: `docs/architecture.md`
 - Безпека та Quality Gate: `docs/security-and-quality.md`
-- UML:
+- UML source:
   - `docs/diagrams/use-case.puml`
   - `docs/diagrams/domain-model.puml`
   - `docs/diagrams/class-diagram.puml`
+- Rendered diagrams:
+  - `docs/diagrams/use-case.svg`
+  - `docs/diagrams/domain-model.svg`
+  - `docs/diagrams/class-diagram.svg`
 
 ## Branch Protection
 
