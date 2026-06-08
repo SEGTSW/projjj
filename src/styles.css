@@ -139,7 +139,7 @@ button {
 
 button:disabled {
   border-color: #b8c0ca;
-  color: #687381;
+  color: #4b5563;
   background: #eef1f4;
   cursor: not-allowed;
 }

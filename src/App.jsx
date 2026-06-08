@@ -97,47 +97,47 @@ export function App() {
           </div>
 
           <label>
-            Назва
+            <span>Назва</span>
             <input value={form.title} onChange={(event) => updateForm('title', event.target.value)} />
           </label>
 
           <label>
-            Опис
+            <span>Опис</span>
             <textarea value={form.description} onChange={(event) => updateForm('description', event.target.value)} />
           </label>
 
           <div className="grid two">
             <label>
-              Початок
+              <span>Початок</span>
               <input type="datetime-local" value={form.startAt} onChange={(event) => updateForm('startAt', event.target.value)} />
             </label>
             <label>
-              Завершення
+              <span>Завершення</span>
               <input type="datetime-local" value={form.endAt} onChange={(event) => updateForm('endAt', event.target.value)} />
             </label>
           </div>
 
           <div className="grid three">
             <label>
-              Тип
+              <span>Тип</span>
               <select value={form.type} onChange={(event) => updateForm('type', event.target.value)}>
                 {Object.values(EventType).map((type) => <option key={type}>{type}</option>)}
               </select>
             </label>
             <label>
-              Пріоритет
+              <span>Пріоритет</span>
               <select value={form.priority} onChange={(event) => updateForm('priority', event.target.value)}>
                 {Object.values(EventPriority).map((priority) => <option key={priority}>{priority}</option>)}
               </select>
             </label>
             <label>
-              Місткість
+              <span>Місткість</span>
               <input type="number" min="1" value={form.capacity} onChange={(event) => updateForm('capacity', event.target.value)} />
             </label>
           </div>
 
           <label>
-            Локація
+            <span>Локація</span>
             <input value={form.location} onChange={(event) => updateForm('location', event.target.value)} />
           </label>
 
@@ -161,7 +161,7 @@ export function App() {
           </fieldset>
 
           <label>
-            Нагадування, хвилини
+            <span>Нагадування, хвилини</span>
             <input value={form.reminderMinutes} onChange={(event) => updateForm('reminderMinutes', event.target.value)} />
           </label>
 
