@@ -22,7 +22,9 @@ src/
   services/     Use cases, Builder, Strategy, Observer
   storage/      Repository interface and in-memory implementation
   utils/        Errors, dates, ids
-tests/          312 unit/integration tests
+tests/
+  helpers/      Test fixtures and runtime factory
+  unit/         312 unit/integration tests split by module
 docs/           Requirements, architecture and UML diagrams
 ```
 

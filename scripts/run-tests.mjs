@@ -1,5 +1,6 @@
 import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
+import { relative } from 'node:path';
 
 await mkdir('reports', { recursive: true });
 await mkdir('coverage', { recursive: true });
@@ -35,7 +36,7 @@ await run('npx', [
   '--test-reporter=junit',
   '--test-reporter-destination=stdout',
   '--test-reporter-destination=reports/junit.xml',
-  'tests/*.test.js'
+  'tests/unit/*.test.js'
 ]);
 
 const junit = await readFile('reports/junit.xml', 'utf8');
@@ -43,7 +44,12 @@ const testCases = [...junit.matchAll(/<testcase\b([^>]*)\/?>/g)].map((match) => 
   const attributes = match[1];
   const name = attributes.match(/\bname="([^"]*)"/)?.[1] ?? 'node-test';
   const time = Number(attributes.match(/\btime="([^"]*)"/)?.[1] ?? 0);
-  return { name, duration: Math.round(time * 1000) };
+  const file = attributes.match(/\bfile="([^"]*)"/)?.[1] ?? 'tests/unit/unknown.test.js';
+  return {
+    name,
+    file: relative(process.cwd(), file).replaceAll('\\', '/'),
+    duration: Math.round(time * 1000)
+  };
 });
 
 const escapeXml = (value) => value
@@ -52,12 +58,19 @@ const escapeXml = (value) => value
   .replaceAll('>', '&gt;')
   .replaceAll('"', '&quot;');
 
+const testCasesByFile = new Map();
+testCases.forEach((testCase) => {
+  const fileTestCases = testCasesByFile.get(testCase.file) ?? [];
+  fileTestCases.push(testCase);
+  testCasesByFile.set(testCase.file, fileTestCases);
+});
+
 const sonarReport = `<?xml version="1.0" encoding="UTF-8"?>
 <testExecutions version="1">
-  <file path="tests/event-planner.test.js">
-${testCases.map((testCase) => `    <testCase name="${escapeXml(testCase.name)}" duration="${testCase.duration}"/>`).join('\n')}
+${[...testCasesByFile].map(([file, fileTestCases]) => `  <file path="${escapeXml(file)}">
+${fileTestCases.map((testCase) => `    <testCase name="${escapeXml(testCase.name)}" duration="${testCase.duration}"/>`).join('\n')}
   </file>
-</testExecutions>
+`).join('')}</testExecutions>
 `;
 
 await writeFile('reports/sonar-test-report.xml', sonarReport);
